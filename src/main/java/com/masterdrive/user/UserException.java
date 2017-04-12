@@ -1,6 +1,6 @@
 package com.masterdrive.user;
 
-import com.masterdrive.util.MasterDriveException;
+import com.masterdrive.MasterDriveException;
 import com.masterdrive.util.Status.Code;
 
 public class UserException extends MasterDriveException {
@@ -12,8 +12,9 @@ public class UserException extends MasterDriveException {
 
 	private User user;
 
-	public UserException(Code code) {
+	public UserException(Code code, User user) {
 		super(code);
+		this.user = user;
 	}
 
 	/**
@@ -21,14 +22,6 @@ public class UserException extends MasterDriveException {
 	 */
 	public User getUser() {
 		return user;
-	}
-
-	/**
-	 * @param user
-	 *            the user to set
-	 */
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

@@ -3,7 +3,7 @@ package com.masterdrive.util;
 public class Status {
 
 	public enum Code {
-		SUCCESS, ERROR
+		SUCCESS, ERROR, API_ERROR, USER_EXISTS
 	}
 
 	private Status() {
@@ -75,6 +75,15 @@ public class Status {
 				status.setCode(5000);
 				status.setMessage("Error");
 				break;
+				
+			case API_ERROR:
+				status.setCode(500);
+				status.setMessage("Unexpected error in API");
+				break;
+				
+			case USER_EXISTS:
+				status.setCode(3000);
+				status.setMessage("User already registered");
 
 			}
 

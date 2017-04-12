@@ -1,5 +1,7 @@
 package com.masterdrive.user;
 
+import java.util.Map;
+
 import com.masterdrive.util.Status;
 
 public interface UserController {
@@ -25,7 +27,7 @@ public interface UserController {
 	 * 
 	 * @throws UserException when User already exists
 	 */
-	public User signUp(User user) throws UserException;
+	public Map<String, Object> signUp(String firstName, String lastName, String email, String password) throws UserException;
 	
 	/**
 	 * Signs out the user and closes the current session
