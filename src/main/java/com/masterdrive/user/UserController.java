@@ -16,7 +16,7 @@ public interface UserController {
 	 * 
 	 * @throws UserException when User cannot be authenticated
 	 */
-	public User signIn(String email, String password) throws UserException;
+	public Map<String, Object> signIn(String email, String password) throws UserException;
 	
 	/**
 	 * Creates a new user account in MasterDrive

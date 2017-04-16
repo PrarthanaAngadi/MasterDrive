@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +29,31 @@ public class UserControllerImpl implements UserController {
 
 	@Override
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public User signIn(String email, String password) throws UserException {
+	public Map<String,Object> signIn(String email, String password) throws UserException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		response = new HashMap<>();
+		try {
+			User user = userDao.get(email);
+			if(user!=null && user.getPassword().equals(DigestUtils.md5Hex(password))) {
+				response.put("status", Status.create(Code.SUCCESS));
+				response.put("user", user);
+				return response;
+			}else {
+				throw new UserException(Code.USER_NOTFOUND, user);
+			}
+				
+		} catch (UserException ue) {
+			response.put("status", Status.create(Code.ERROR));
+			response.put("error", ue);
+			return response;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			response.put("status", Status.create(Code.ERROR));
+			response.put("error", new MasterDriveException(Code.API_ERROR));
+			return response;
+		}
 	}
 
 	@Override

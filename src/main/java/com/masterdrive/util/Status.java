@@ -8,7 +8,8 @@ public class Status {
 		API_ERROR, 
 		USER_EXISTS, 
 		INVALID_VERIFICATIONCODE, 
-		UPDATE_FAILURE
+		UPDATE_FAILURE,
+		USER_NOTFOUND
 	}
 
 	private Status() {
@@ -99,6 +100,11 @@ public class Status {
 			case UPDATE_FAILURE:
 				status.setCode(3200);
 				status.setMessage("User verification update failed");
+				break;
+				
+			case USER_NOTFOUND:
+				status.setCode(3300);
+				status.setMessage("User not found");
 				break;
 			}
 			return status;
