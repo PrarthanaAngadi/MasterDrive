@@ -11,7 +11,6 @@ public class UserException extends MasterDriveException {
 	private static final long serialVersionUID = 8402991771535353751L;
 
 	private User user;
-
 	public UserException(Code code, User user) {
 		super(code);
 		this.user = user;
@@ -24,4 +23,5 @@ public class UserException extends MasterDriveException {
 		return user;
 	}
 
+	
 }

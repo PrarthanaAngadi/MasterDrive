@@ -1,13 +1,17 @@
 package com.masterdrive.user;
 
+import java.util.Random;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,10 +44,17 @@ public class User {
 	private String password;
 	
 	@NotNull
+	@Enumerated(EnumType.STRING)
 	private StatusCode status;
+	
+	@NotNull
+	private String verificationCode;
 	
 	User() {
 		this.status = StatusCode.NOT_VERIFIED;
+		Random rnd = new Random();
+        int digits = 100000 + rnd.nextInt(900000);
+        this.verificationCode = String.valueOf(digits); 
 	}
 	
 	/**
@@ -104,7 +115,7 @@ public class User {
 	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = DigestUtils.md5Hex(password);
 	}
 
 	/**
@@ -119,6 +130,15 @@ public class User {
 	 */
 	public void setStatus(StatusCode status) {
 		this.status = status;
-	}	
+	}
+
+	/**
+	 * @return the verificationCode
+	 */
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	
 	
 }

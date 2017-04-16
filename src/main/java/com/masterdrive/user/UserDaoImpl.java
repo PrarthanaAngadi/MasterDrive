@@ -7,9 +7,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.masterdrive.MasterDriveException;
+import com.masterdrive.user.User.StatusCode;
 import com.masterdrive.util.Status.Code;
 
 @Repository
@@ -52,24 +54,28 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void update(User object) throws MasterDriveException {
-		// TODO Auto-generated method stub
-
+	public void update(User user) throws UserException {
+			User value = entityManager.merge(user);
+			if(value == null)
+				throw new UserException(Code.UPDATE_FAILURE, user);	
 	}
 
 	@Override
-	public User get(String email) throws MasterDriveException{
+	public User get(String email) throws MasterDriveException {
 
 		try {
-
 			User user = (User) entityManager.createQuery("from User where email = :email").setParameter("email", email)
 					.getSingleResult();
 			return user;
 
 		} catch (NoResultException e) {
 			return null;
-		} 
+		}
 
 	}
+
+	
+
+	
 
 }

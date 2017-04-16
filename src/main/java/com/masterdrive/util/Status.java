@@ -3,7 +3,12 @@ package com.masterdrive.util;
 public class Status {
 
 	public enum Code {
-		SUCCESS, ERROR, API_ERROR, USER_EXISTS
+		SUCCESS, 
+		ERROR, 
+		API_ERROR, 
+		USER_EXISTS, 
+		INVALID_VERIFICATIONCODE, 
+		UPDATE_FAILURE
 	}
 
 	private Status() {
@@ -84,9 +89,18 @@ public class Status {
 			case USER_EXISTS:
 				status.setCode(3000);
 				status.setMessage("User already registered");
-
+				break;
+				
+			case INVALID_VERIFICATIONCODE:
+				status.setCode(3100);
+				status.setMessage("Invalid Verification Code entered");
+				break;
+				
+			case UPDATE_FAILURE:
+				status.setCode(3200);
+				status.setMessage("User verification update failed");
+				break;
 			}
-
 			return status;
 
 		} catch (Exception e) {
