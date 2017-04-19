@@ -35,14 +35,17 @@ public class UserControllerImpl implements UserController {
 		response = new HashMap<>();
 		try {
 			User user = userDao.get(email);
-			if(user!=null && user.getPassword().equals(DigestUtils.md5Hex(password))) {
+			if(user == null){
+				throw new UserException(Code.USER_NOTFOUND, user);
+			}else if(user.getStatus().equals(StatusCode.NOT_VERIFIED)) {
+				throw new UserException(Code.USER_UNVERIFIED, user);
+			}else if(!user.getPassword().equals(DigestUtils.md5Hex(password))) {
+				throw new UserException(Code.USER_NOTFOUND, user);	
+			}else {
 				response.put("status", Status.create(Code.SUCCESS));
 				response.put("user", user);
 				return response;
-			}else {
-				throw new UserException(Code.USER_NOTFOUND, user);
-			}
-				
+			}	
 		} catch (UserException ue) {
 			response.put("status", Status.create(Code.ERROR));
 			response.put("error", ue);
@@ -124,5 +127,7 @@ public class UserControllerImpl implements UserController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 }

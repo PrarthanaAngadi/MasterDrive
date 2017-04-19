@@ -9,7 +9,8 @@ public class Status {
 		USER_EXISTS, 
 		INVALID_VERIFICATIONCODE, 
 		UPDATE_FAILURE,
-		USER_NOTFOUND
+		USER_NOTFOUND,
+		USER_UNVERIFIED
 	}
 
 	private Status() {
@@ -105,6 +106,11 @@ public class Status {
 			case USER_NOTFOUND:
 				status.setCode(3300);
 				status.setMessage("User not found");
+				break;
+				
+			case USER_UNVERIFIED:
+				status.setCode(3400);
+				status.setMessage("User verification is pending");
 				break;
 			}
 			return status;
