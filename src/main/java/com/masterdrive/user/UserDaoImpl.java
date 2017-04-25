@@ -7,11 +7,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.masterdrive.MasterDriveException;
-import com.masterdrive.user.User.StatusCode;
 import com.masterdrive.util.Status.Code;
 
 @Repository

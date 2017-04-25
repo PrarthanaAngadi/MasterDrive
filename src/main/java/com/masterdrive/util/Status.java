@@ -10,7 +10,8 @@ public class Status {
 		INVALID_VERIFICATIONCODE, 
 		UPDATE_FAILURE,
 		USER_NOTFOUND,
-		USER_UNVERIFIED
+		USER_UNVERIFIED,
+		USER_NO_DROPBOX_ACCOUNTS
 	}
 
 	private Status() {
@@ -112,6 +113,12 @@ public class Status {
 				status.setCode(3400);
 				status.setMessage("User verification is pending");
 				break;
+			
+			case USER_NO_DROPBOX_ACCOUNTS:
+				status.setCode(3500);
+				status.setMessage("User doesnot have any associated dropbox accounts");
+				break;
+				
 			}
 			return status;
 

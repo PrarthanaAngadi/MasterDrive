@@ -39,5 +39,7 @@ public interface UserController {
 	 * @throws UserException when no active session exists for the user
 	 */
 	public Status signOut(int userId) throws UserException;
+	
+	public Map<String,Object> getDropboxAccounts(String email) throws UserException;
 
 }

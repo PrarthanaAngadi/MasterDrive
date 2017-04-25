@@ -2,7 +2,6 @@ package com.masterdrive;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.masterdrive.util.Status;
-import com.masterdrive.util.Status.Code;
 
 @JsonIgnoreProperties({"stackTrace","message", "localizedMessage", "suppressed","cause"})
 public class MasterDriveException extends Exception {

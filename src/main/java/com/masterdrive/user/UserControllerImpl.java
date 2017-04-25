@@ -2,8 +2,6 @@ package com.masterdrive.user;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.api.services.drive.Drive;
 import com.masterdrive.MasterDriveException;
 import com.masterdrive.user.User.StatusCode;
 import com.masterdrive.util.Status;
@@ -126,6 +123,36 @@ public class UserControllerImpl implements UserController {
 	public Status signOut(int userId) throws UserException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	@RequestMapping(value = "/getDropboxAccounts", method = RequestMethod.POST)
+	public Map<String, Object> getDropboxAccounts(String email) throws UserException {
+		// TODO Auto-generated method stub
+		response = new HashMap<>();
+		try {
+			User user = userDao.get(email);
+			if(user == null){
+				throw new UserException(Code.USER_NOTFOUND, user);
+			}else if(user.getDropboxAccounts().size() == 0){
+				throw new UserException(Code.USER_NO_DROPBOX_ACCOUNTS, user);
+			}else{
+				response.put("status", Status.create(Code.SUCCESS));
+				response.put("access_token", user.getDropboxAccounts().iterator().next().getAccessToken());
+				return response;
+			}	
+		} catch (UserException ue) {
+			response.put("status", Status.create(Code.ERROR));
+			response.put("error", ue);
+			return response;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			response.put("status", Status.create(Code.ERROR));
+			response.put("error", new MasterDriveException(Code.API_ERROR));
+			return response;
+		}
+		
 	}
 	
 	

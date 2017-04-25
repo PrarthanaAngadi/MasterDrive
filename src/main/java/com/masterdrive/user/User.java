@@ -1,13 +1,17 @@
 package com.masterdrive.user;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +19,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.masterdrive.storage.Dropbox;
 
 @Entity
 @Table(name = "users")
@@ -50,11 +55,15 @@ public class User {
 	@NotNull
 	private String verificationCode;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Dropbox> dropboxAccounts = new HashSet<>();
+	
 	User() {
 		this.status = StatusCode.NOT_VERIFIED;
 		Random rnd = new Random();
         int digits = 100000 + rnd.nextInt(900000);
         this.verificationCode = String.valueOf(digits); 
+        this.dropboxAccounts = null;
 	}
 	
 	/**
@@ -139,6 +148,23 @@ public class User {
 		return verificationCode;
 	}
 
+	public Set<Dropbox> getDropboxAccounts() {
+		return dropboxAccounts;
+	}
+
+	public void setDropboxAccounts(Set<Dropbox> dropboxAccounts) {
+		this.dropboxAccounts = dropboxAccounts;
+	}
+
+	
+
+	
+
+	
+
+	
+
+	
 	
 	
 }
